@@ -448,20 +448,27 @@
       .hamburger { display: flex; }
 
       /* Pages */
-      .page { padding: 24px 20px 60px; min-height: calc(100vh - 60px); }
+      .page { padding: 0px 20px 0px; min-height: calc(100vh - 100px); }
 
       /* Home */
       #home.active {
         flex-direction: column;
-        gap: 32px;
-        padding-top: 24px;
       }
-      .home-left h1 { font-size: 2.6rem; }
+      .home-left { 
+        display: contents;
+        padding-bottom: 0px;
+      }
+      .home-left h1 { 
+        font-size: 2.6rem; 
+        margin-bottom: 0px;
+      }
       .home-left p { font-size: 1.4rem; }
       .home-right {
         width: 100%;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
+        grid-template-columns: repeat(1, 1fr);
+        padding: 8px 0px 8px;
+        display: grid;
+        margin-top: 20px;
       }
       .home-card p { font-size: 1.1rem; }
 
@@ -479,14 +486,29 @@
       .timeline-mobile { display: block; padding: 0 4px; }
 
       /* About */
+      #about {
+        gap: 8px;
+      }
       #about.active {
         flex-direction: column;
-        gap: 28px;
-        padding-top: 24px;
       }
-      .about-left h1 { font-size: 2.6rem; }
+      .about-left {
+        display: contents;
+        padding-bottom: 0px;
+      }
+      .about-left h1 { 
+        font-size: 2.6rem; 
+        margin-bottom: 0px; 
+      }
       .about-left p { font-size: 1.4rem; }
-      .about-right { font-size: 1.15rem; }
+      .about-right { 
+        font-size: 1.15rem; 
+        width: 100%;
+        grid-template-columns: repeat(1, 1fr);
+        padding: 8px 0px 8px;
+        display: grid;
+        text-align: justify;
+      }
     }
 
     /* ── EXTRA SMALL ── */
