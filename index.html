@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Portfolio Website</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d2d22;
+      --bg2: #102e24;
+      --accent: #ffffff;
+      --muted: rgba(255,255,255,0.75);
+      --card-bg: #d4d4d4;
+      --border: rgba(255,255,255,0.6);
+      --font-hand: 'Caveat', cursive;
+      --font-body: 'Patrick Hand', cursive;
+      --line-size: 80px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--accent);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+    }
+
+    .nav-logo {
+      font-family: var(--font-hand);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav-links button {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--accent);
+      font-family: var(--font-hand);
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 8px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-links button:hover,
+    .nav-links button.active {
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; min-height: calc(100vh - 100px); padding: 0px 40px 0px; }
+    .page.active { display: block; }
+
+    /* ── HOME PAGE ── */
+    #home {
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      gap: 60px;
+    }
+    #home.active { display: flex; }
+
+    .home-left { flex: 1; }
+    .home-left h1 {
+      font-family: var(--font-hand);
+      font-size: 3.5rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .home-left h1 span {
+      font-weight: 700;
+    }
+    .home-left p {
+      font-family: var(--font-body);
+      font-size: 1.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+      font-style: normal;
+    }
+
+    .home-right {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .home-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .home-card-thumb {
+      width: 200px;
+      height: 200px;
+      size: 2;
+      background: var(--card-bg);
+      border-radius: 4px;
+    }
+
+    .home-card p {
+      font-family: var(--font-body);
+      font-size: 1.5rem;
+      font-style: normal;
+      color: var(--muted);
+    }
+
+    /* ── PROJECTS PAGE ── */
+    #projects { display: none; }
+    #projects.active { display: block; }
+
+    #projects h2 {
+      font-family: var(--font-body);
+      font-size: 2.8rem;
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 20px;
+      font-style: normal;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .project-card:hover { transform: translateY(-4px); }
+
+    .project-thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--card-bg);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .project-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .project-card p {
+      font-family: var(--font-body);
+      font-size: 1.5rem;
+      font-style: normal;
+      color: var(--muted);
+    }
+
+    /* ── EXPERIENCE PAGE ── */
+    #experience { display: none; }
+    #experience.active { display: block; }
+
+    .timeline-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      background: var(--border);
+      top: 0;
+      bottom: 0;
+    }
+
+    .timeline-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+      position: relative;
+    }
+
+    .tl-item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 120px;
+      position: relative;
+    }
+
+    /* left items */
+    .tl-item.left { flex-direction: row; }
+    .tl-item.left .tl-content {
+      width: calc(50% - var(--line-size));
+      text-align: right;
+      padding-right: 20px;
+    }
+    .tl-item.left .tl-line {
+      position: absolute;
+      left: calc(50% - var(--line-size));
+      width: var(--line-size);
+      height: 2px;
+      background: var(--border);
+    }
+    .tl-item.left .tl-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      z-index: 2;
+    }
+    .tl-item.left .tl-diamond {
+      position: absolute;
+      left: calc(50% - var(--line-size));
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      transform: rotate(45deg);
+      z-index: 2;
+    }
+    .tl-item.left .tl-spacer { width: 50%; }
+
+    /* right items */
+    .tl-item.right { flex-direction: row-reverse; }
+    .tl-item.right .tl-content {
+      width: calc(50% - var(--line-size));
+      text-align: left;
+      padding-left: 20px;
+    }
+    .tl-item.right .tl-line {
+      position: absolute;
+      left: calc(50%);
+      width: var(--line-size);
+      height: 2px;
+      background: var(--border);
+    }
+    .tl-item.right .tl-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      z-index: 2;
+    }
+    .tl-item.right .tl-diamond {
+      position: absolute;
+      left: calc(48.4% + var(--line-size));
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      transform: rotate(45deg);
+      z-index: 2;
+    }
+    .tl-item.right .tl-spacer { width: 50%; }
+
+    .tl-content h3 {
+      font-family: var(--font-hand);
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .tl-content p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    /* ── ABOUT PAGE ── */
+    #about {
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      gap: 60px;
+    }
+    #about.active { display: flex; }
+
+    .about-left { flex: 1; }
+    .about-left h1 {
+      font-family: var(--font-hand);
+      font-size: 3.5rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+    .about-left h1 span { font-weight: 700; }
+    .about-left p {
+      font-family: var(--font-body);
+      font-size: 1.9rem;
+      color: var(--muted);
+      line-height: 1.25;
+      font-style: normal;
+    }
+    .about-right {
+      flex: 1;
+      font-family: var(--font-body);
+      font-size: 1.5rem;
+      font-style: normal;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── FADE ANIMATION ── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page.active { animation: fadeIn 0.35s ease; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 16px; }
+      .nav-logo { font-size: 1.2rem; }
+      .nav-links button { font-size: 0.85rem; padding: 6px 12px; }
+      #home, #about { flex-direction: column; padding-top: 0px; gap: 30px; }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .tl-item.left .tl-content,
+      .tl-item.right .tl-content { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <span class="nav-logo" onclick="showPage('home')">My Portfolio Website</span>
+    <div class="nav-links">
+      <button onclick="showPage('home')" id="btn-home" class="active">Home</button>
+      <button onclick="showPage('projects')" id="btn-projects">My Projects</button>
+      <button onclick="showPage('experience')" id="btn-experience">Experience</button>
+      <button onclick="showPage('about')" id="btn-about">About</button>
+    </div>
+  </nav>
+
+  <!-- HOME -->
+  <div class="page active" id="home">
+    <div class="home-left">
+      <h1>Hello, I am <span>Riski AR</span></h1>
+      <p>Java Developer, Mobile Developer, Farmer<br>&amp; love about work.</p>
+    </div>
+    <div class="home-right">
+      <div class="home-card">
+        <div class="home-card-thumb"></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="home-card">
+        <div class="home-card-thumb"></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="home-card">
+        <div class="home-card-thumb"></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="home-card">
+        <div class="home-card-thumb"></div>
+        <p>Sticky Side</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY PROJECTS -->
+  <div class="page" id="projects">
+    <h2>My Projects</h2>
+    <div class="projects-grid">
+      <!-- 8 project cards -->
+      <div class="project-card">
+        <div class="project-thumb"><div style="width:100%;height:100%;background:#d0d0d0;"></div></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"><div style="width:100%;height:100%;background:#d0d0d0;"></div></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"><div style="width:100%;height:100%;background:#d0d0d0;"></div></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"><div style="width:100%;height:100%;background:#d0d0d0;"></div></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"><div style="width:100%;height:100%;background:#d0d0d0;"></div></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"><div style="width:100%;height:100%;background:#d0d0d0;"></div></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"><div style="width:100%;height:100%;background:#d0d0d0;"></div></div>
+        <p>Sticky Side</p>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"><div style="width:100%;height:100%;background:#d0d0d0;"></div></div>
+        <p>Sticky Side</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="page" id="experience">
+    <div class="timeline-wrap">
+      <div class="timeline-center"></div>
+      <div class="timeline-items">
+
+        <!-- Item 1: LEFT - Programmer -->
+        <div class="tl-item left">
+          <div class="tl-content">
+            <h3>Programmer</h3>
+            <p>PT. GreenNusa Computindo</p>
+            <p>01 Maret 2020 – 30 Maret 2020 (1 bulan)</p>
+          </div>
+          <div class="tl-diamond"></div>
+          <div class="tl-line"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-spacer"></div>
+        </div>
+
+        <!-- Item 2: RIGHT - Mobile Developer -->
+        <div class="tl-item right">
+          <div class="tl-content">
+            <h3>Mobile Developer</h3>
+            <p>Bangkit Academy</p>
+            <p>01 Januari 2024 – 30 Juni 2024 (6 bulan)</p>
+          </div>
+          <div class="tl-line"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-diamond"></div>
+          <div class="tl-spacer"></div>
+        </div>
+
+        <!-- Item 3: LEFT - Network Technician -->
+        <div class="tl-item left">
+          <div class="tl-content">
+            <h3>Network Technician</h3>
+            <p>CV. Mustofa Network</p>
+            <p>01 Maret 2020 – 30 Maret 2020 (1 bulan 2 Minggu)</p>
+          </div>
+          <div class="tl-diamond"></div>
+          <div class="tl-line"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-spacer"></div>
+        </div>
+
+        <!-- Item 4: RIGHT - IT Support -->
+        <div class="tl-item right">
+          <div class="tl-content">
+            <h3>IT Support</h3>
+            <p>UD. Bangkit CCTV &amp; Printer</p>
+            <p>01 Januari 2019 – 30 Maret 2019 (3 bulan)</p>
+          </div>
+          <div class="tl-line"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-diamond"></div>
+          <div class="tl-spacer"></div>
+        </div>
+
+        <!-- Item 5: LEFT - Freelance -->
+        <div class="tl-item left">
+          <div class="tl-content">
+            <h3>Freelance</h3>
+            <p>PT. Kemandirian Pangan</p>
+            <p>01 Januari 2010 – 30 Juni 2021 (11 tahun 6 bulan)</p>
+          </div>
+          <div class="tl-diamond"></div>
+          <div class="tl-line"></div>
+          <div class="tl-dot"></div>
+          <div class="tl-spacer"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="page" id="about">
+    <div class="about-left">
+      <h1>Hello, I am <span>Riski AR</span></h1>
+      <p>Java Developer, Mobile Developer, Farmer<br>&amp; love about work.</p>
+    </div>
+    <div class="about-right">
+      I am a graduate of a vocational high school with major in Computer and Network Engineering and am currently pursuing my studies at Mulawarman university. 
+      I am passionate about and committed to continuously learning and growing in the field of software development, particularly in Android development.
+      Additionally, I have 1-3 months of internship experience at an Internet Service Provider (ISP), an IT consulting firm, and a computer and CCTV service provider.
+      I possess skills in providing technical support and troubleshooting hardware and software issues.
+    </div>
+  </div>
+
+  <script>
+    function showPage(name) {
+      // hide all
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+      // show target
+      document.getElementById(name).classList.add('active');
+      document.getElementById('btn-' + name).classList.add('active');
+    }
+  </script>
+</body>
+</html>
